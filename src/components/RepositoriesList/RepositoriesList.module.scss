@@ -1,0 +1,45 @@
+@import '@/styles/mixins-media';
+
+.repositories {
+	max-width: 90vw;
+	margin: 0 auto;
+	color: var(--white);
+	height: 50vh;
+	overflow: auto;
+	padding-right: 2px;
+	margin-bottom: 40px;
+	&::-webkit-scrollbar {
+		width: 8px;
+	}
+
+	&::-webkit-scrollbar-track {
+		background-color: var(--bg-black);
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: var(--dark-blue);
+		border-radius: 20px;
+
+		&:hover {
+			background-color: #5c62b0;
+		}
+	}
+	&__not-found,
+	&__loading {
+		padding-left: 10px;
+	}
+	&__loading {
+		overflow: hidden;
+		white-space: nowrap;
+		animation: expand 1s infinite;
+	}
+}
+
+@keyframes expand {
+	from {
+		width: 0;
+	}
+	to {
+		width: 30%;
+	}
+}

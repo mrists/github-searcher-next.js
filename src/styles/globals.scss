@@ -1,0 +1,62 @@
+@import '../../node_modules/normalize-scss/sass/normalize/import-now';
+@import 'variables';
+@import 'mixins-media';
+
+:root {
+	--bg-black: #202229;
+	--bg-gray: #303030;
+	--black: #000000;
+	--gray-light: #767674;
+	--dark-blue: #191a4a;
+	--blue: #3e4491;
+	--sky-blue: #2f77c6;
+	--white: #ffffff;
+}
+
+*,
+*::after,
+*::before {
+	box-sizing: border-box;
+}
+
+body {
+	background: var(--bg-black);
+}
+
+.header {
+	color: var(--white);
+	display: flex;
+	justify-content: center;
+}
+
+.searcher {
+	color: var(--white);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	max-width: 90vw;
+	padding: 0 20px;
+	margin: 0 auto;
+	&__input {
+		padding: 12px 10px;
+		width: 98%;
+		margin: 0 auto 10px;
+		background: var(--sky-blue);
+		border: none;
+		outline: none;
+		color: var(--white);
+		&::placeholder {
+			color: var(--white);
+			margin: 0;
+			padding: 0;
+		}
+	}
+}
+
+.error-404 {
+	min-height: 100vh;
+	color: var(--white);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

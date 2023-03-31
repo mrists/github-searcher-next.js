@@ -1,0 +1,39 @@
+@import '@/styles/mixins-media';
+
+.user-list {
+	background: var(--bg-gray);
+	width: 100%;
+	overflow: auto;
+	&::-webkit-scrollbar {
+		width: 8px;
+	}
+
+	&::-webkit-scrollbar-track {
+		background-color: var(--bg-black);
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: var(--blue);
+		border-radius: 20px;
+
+		&:hover {
+			background-color: #5c62b0;
+		}
+	}
+	@include height-md-min {
+		height: 80vh;
+	}
+	@include height-md-sm {
+		height: 75vh;
+	}
+	@include height-sm {
+		height: 70vh;
+	}
+	&__not-found {
+		padding: 0 15px;
+	}
+	&__link {
+		text-decoration: none;
+		color: var(--white);
+	}
+}

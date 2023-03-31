@@ -1,0 +1,42 @@
+@import '@/styles/mixins-media';
+
+.user-info {
+	display: flex;
+	margin-bottom: 15px;
+	@include md-min {
+		justify-content: space-evenly;
+	}
+	@include md {
+		flex-direction: column;
+		gap: 20px;
+	}
+	&__img-folder {
+		@include md-sm {
+			display: flex;
+			justify-content: center;
+		}
+	}
+	&__img {
+		@include sm-min {
+			width: 250px;
+			height: 250px;
+		}
+		@include sm {
+			width: 200px;
+			height: 200px;
+		}
+	}
+
+	&__description {
+		display: flex;
+		flex-direction: column;
+		gap: 2.5px;
+		p {
+			margin: 0;
+			letter-spacing: 0.05rem;
+			@include md-sm {
+				text-align: center;
+			}
+		}
+	}
+}

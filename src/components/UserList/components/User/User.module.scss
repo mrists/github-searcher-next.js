@@ -1,0 +1,41 @@
+@import '@/styles/mixins-media';
+
+.user-item {
+	padding: 10px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: var(--blue);
+	border: 2px solid var(--black);
+	cursor: pointer;
+	@include sm-min {
+		font-size: 16px;
+	}
+	@include sm {
+		font-size: 14px;
+	}
+	&__img {
+		width: 3.125em;
+		height: 3.125em;
+	}
+	&__login {
+		margin: 0;
+		font-size: 1.2em;
+		@include sm {
+			max-width: 150px;
+			overflow: hidden;
+		}
+	}
+	&__id {
+		display: flex;
+		flex-direction: column;
+		width: 80px;
+		gap: 5px;
+		@include sm-min {
+			width: 80px;
+		}
+		@include sm {
+			width: 60px;
+		}
+	}
+}
