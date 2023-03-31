@@ -1,4 +1,5 @@
 import { User } from '@/types/types';
+import Image from 'next/image';
 import { FC } from 'react';
 import styles from './UserInfo.module.scss';
 
@@ -6,7 +7,9 @@ const UserInfo: FC<User | any> = ({ user }) => {
 	return (
 		<div className={styles['user-info']}>
 			<div className={styles['user-info__img-folder']}>
-				<img
+				<Image
+					width={250}
+					height={250}
 					className={styles['user-info__img']}
 					src={user.avatar_url}
 					alt={user.login}
