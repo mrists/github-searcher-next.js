@@ -1,10 +1,10 @@
 import { FC } from 'react';
 import { InputProps } from './types';
 
-const Input: FC<InputProps> = props => {
+const Input: FC<InputProps> = ({ styleClassName, ...props }) => {
 	return (
 		<input
-			className={props.styleClassName}
+			className={styleClassName}
 			{...props}
 		/>
 	);

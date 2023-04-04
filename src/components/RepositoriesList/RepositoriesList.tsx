@@ -4,11 +4,7 @@ import styles from './RepositoriesList.module.scss';
 import Repository from './components/Repository/Repository';
 import { RepositoriesListProps } from './types';
 
-const RepositoriesList: FC<RepositoriesListProps> = ({
-	repositories,
-	error,
-	isRepositoriesLoading,
-}) => {
+const RepositoriesList: FC<RepositoriesListProps> = ({ repositories }) => {
 	const renderRepositories = (repository: IRepository): React.ReactNode => {
 		return (
 			<Repository
@@ -25,10 +21,6 @@ const RepositoriesList: FC<RepositoriesListProps> = ({
 		<div className={styles.repositories}>
 			{repositories.length ? (
 				repositories.map(renderRepositories)
-			) : isRepositoriesLoading ? (
-				<h3 className={styles['repositories__loading']}>Repositories loading...</h3>
-			) : error ? (
-				<h3 className={styles['repositories__not-found']}>{error}</h3>
 			) : (
 				<h3 className={styles['repositories__not-found']}>No repositories found</h3>
 			)}

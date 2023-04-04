@@ -4,51 +4,40 @@ import Input from '@/components/UI/input/Input';
 import UserInfo from '@/components/UserInfo/UserInfo';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useRepos } from '@/hooks/useRepos';
-import { IRepository, User } from '@/types/types';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import styles from './UserDetails.module.scss';
+import { UserDetailsProps } from './types';
 
-const UserDetails: FC = () => {
-	const { query } = useRouter();
+export const getServerSideProps: GetServerSideProps = async (
+	context: GetServerSidePropsContext<ParsedUrlQuery>
+) => {
+	try {
+		const { id } = context.query;
+
+		const { data: user } = await UserService.getUserByID(id as string);
+		const { data: repositories } = await UserService.getRepositories(user.login);
+
+		return {
+			props: {
+				user,
+				repositories,
+			},
+		};
+	} catch (error) {
+		return {
+			props: { error },
+		};
+	}
+};
+
+const UserDetails: FC<UserDetailsProps> = ({ user, repositories, error }) => {
 	const [searchQuery, setSearchQuery] = useState<string>('');
-	const [isRepositoriesLoading, setIsRepositoriesLoading] = useState<boolean>(true);
 	const debouncedSearchQuery = useDebounce<string>(searchQuery, 500);
-	const [user, setUser] = useState<User | any>({});
-	const [repositories, setRepositories] = useState<IRepository[]>([]);
-	const [errors, setErrors] = useState<Error | any>({ user: '', repositories: '' });
-	const { id }: ParsedUrlQuery = query;
-	const fetchUserAndRepositories = () => {
-		if (!id) return;
-
-		UserService.getUserByID(id)
-			.then(({ data }) => {
-				setUser(data);
-				setErrors({ ...errors, user: '' });
-				UserService.getRepositories(data.login)
-					.then(({ data }) => {
-						setRepositories(data);
-						setErrors({ ...errors, repositories: '' });
-					})
-					.catch((error: unknown) => {
-						setErrors({ ...errors, repositories: (error as Error).message });
-					})
-					.finally(() => {
-						setIsRepositoriesLoading(false);
-					});
-			})
-			.catch((error: unknown) => {
-				setErrors({ ...errors, user: (error as Error).message });
-			});
-	};
-
-	useEffect(() => {
-		fetchUserAndRepositories();
-	}, []);
 
 	const searchedRepositories = useRepos(repositories, debouncedSearchQuery);
 
@@ -70,11 +59,11 @@ const UserDetails: FC = () => {
 					href={user.avatar_url}
 				></link>
 			</Head>
-			<div className={styles['user-details']}>
-				{errors.user ? (
-					<h3 className={styles['user-details__error']}>{errors.user}</h3>
-				) : (
-					<>
+			{error ? (
+				<h3 className={styles['user-details__error']}>{error}</h3>
+			) : (
+				<>
+					<div className={styles['user-details']}>
 						<UserInfo user={user} />
 						<div className={styles['user-details__link']}>
 							{user.blog ? (
@@ -111,14 +100,10 @@ const UserDetails: FC = () => {
 								/>
 							</Link>
 						</div>
-					</>
-				)}
-			</div>
-			<RepositoriesList
-				repositories={searchedRepositories}
-				isRepositoriesLoading={isRepositoriesLoading}
-				error={errors.repositories}
-			/>
+					</div>
+					<RepositoriesList repositories={searchedRepositories} />
+				</>
+			)}
 		</>
 	);
 };
