@@ -1,0 +1,30 @@
+.hamburger {
+	position: absolute;
+	top: 30px;
+	left: 30px;
+	width: 28px;
+	height: 24px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 7px;
+	cursor: pointer;
+	span {
+		height: 2px;
+		border-radius: 1px;
+		width: 28px;
+		background: var(--white);
+	}
+}
+
+.history {
+	position: absolute;
+	left: 30px;
+	top: 30px;
+	width: 400px;
+	min-height: 120vh;
+	padding: 15px;
+	margin: 0 auto;
+	background: var(--white);
+}

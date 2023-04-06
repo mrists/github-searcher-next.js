@@ -3,6 +3,7 @@ import Input from '@/components/UI/input/Input';
 import UserList from '@/components/UserList/UserList';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useFetching } from '@/hooks/useFetching';
+import styles from '@/styles/Searcher.module.scss';
 import { IUser } from '@/types/types';
 import Head from 'next/head';
 import { FC, useEffect, useState } from 'react';
@@ -42,9 +43,9 @@ const Searcher: FC = () => {
 					href='/images/GitHub-Mark.png'
 				></link>
 			</Head>
-			<div className='searcher'>
+			<div className={styles.searcher}>
 				<Input
-					styleClassName='searcher__input'
+					styleClassName={styles.searcher__input}
 					value={userLogin}
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUserLogin(e.target.value.trim())}
 					type='text'

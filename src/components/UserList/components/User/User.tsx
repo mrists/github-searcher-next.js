@@ -13,11 +13,6 @@ const User: FC<UserProps> = ({ login, avatar_url, id }) => {
 				alt={avatar_url}
 				className={styles['user-item__img']}
 			/>
-			{/* <img
-				src={avatar_url}
-				alt={avatar_url}
-				className={styles['user-item__img']}
-			/> */}
 			<p className={styles['user-item__login']}>{login}</p>
 			<div className={styles['user-item__id']}>
 				<span>Repo:</span>

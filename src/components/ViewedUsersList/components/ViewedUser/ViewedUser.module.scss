@@ -1,6 +1,5 @@
-@import '@/styles/mixins-media';
-
-.user-item {
+.viewed-user {
+	font-size: 14px;
 	padding: 10px;
 	display: flex;
 	justify-content: space-between;
@@ -8,33 +7,24 @@
 	background: var(--blue);
 	border: 2px solid var(--black);
 	cursor: pointer;
-	@include sm-min {
-		font-size: 16px;
-	}
-	@include sm {
-		font-size: 14px;
-	}
 	&__img {
 		width: 3.125em;
 		height: 3.125em;
 	}
 	&__login {
+		width: 150px;
+		text-align: center;
+		overflow: hidden;
 		margin: 0;
 		font-size: 1.2em;
-		@include sm {
-			max-width: 150px;
-			overflow: hidden;
-		}
 	}
 	&__id {
 		display: flex;
 		flex-direction: column;
 		gap: 5px;
-		@include sm-min {
-			width: 80px;
-		}
-		@include sm {
-			width: 60px;
-		}
+		width: 60px;
+	}
+	&__delete {
+		padding: 5px;
 	}
 }

@@ -4,12 +4,14 @@ import Input from '@/components/UI/input/Input';
 import UserInfo from '@/components/UserInfo/UserInfo';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useRepos } from '@/hooks/useRepos';
+import { addViewedUser } from '@/store/viewedUserSlice';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styles from './UserDetails.module.scss';
 import { UserDetailsProps } from './types';
 
@@ -36,6 +38,7 @@ export const getServerSideProps: GetServerSideProps = async (
 };
 
 const UserDetails: FC<UserDetailsProps> = ({ user, repositories, error }) => {
+	const dispatch = useDispatch();
 	const [searchQuery, setSearchQuery] = useState<string>('');
 	const debouncedSearchQuery = useDebounce<string>(searchQuery, 500);
 
@@ -48,6 +51,10 @@ const UserDetails: FC<UserDetailsProps> = ({ user, repositories, error }) => {
 
 		window.open(finalUrl, '_blank', 'noreferrer');
 	}
+
+	useEffect(() => {
+		dispatch(addViewedUser(user));
+	}, []);
 
 	return (
 		<>
