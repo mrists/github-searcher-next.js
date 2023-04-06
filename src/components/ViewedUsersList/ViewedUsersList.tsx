@@ -19,7 +19,11 @@ const ViewedUsersList: FC<ViewedUsersListProps> = ({ users }) => {
 			></ViewedUser>
 		</Link>
 	);
-	return <div>{users.length ? users.map(renderUsers) : <h3>No user found</h3>}</div>;
+	return (
+		<div className={styles['viewed-users__list']}>
+			{users.length ? users.map(renderUsers) : <h3>No user found</h3>}
+		</div>
+	);
 };
 
 export default ViewedUsersList;
