@@ -1,5 +1,12 @@
-import { IUser } from "@/types/types";
+import { IRepository, IUser } from "@/types/types";
 
-export interface ViewState {
+export interface viewedUserState {
   viewedUsers: IUser[];
+}
+
+export interface userState {
+  users: IUser[],
+  repositories: IRepository[],
+  fetched: boolean,
+  error: string | null
 }

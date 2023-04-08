@@ -41,6 +41,7 @@ const UserDetails: FC<UserDetailsProps> = ({ user, repositories, error }) => {
 	const dispatch = useDispatch();
 	const [searchQuery, setSearchQuery] = useState<string>('');
 	const debouncedSearchQuery = useDebounce<string>(searchQuery, 500);
+	const [isHistoryChanged, setIsHistoryChanged] = useState<boolean>(false);
 
 	const searchedRepositories = useRepos(repositories, debouncedSearchQuery);
 
@@ -53,7 +54,10 @@ const UserDetails: FC<UserDetailsProps> = ({ user, repositories, error }) => {
 	}
 
 	useEffect(() => {
-		dispatch(addViewedUser(user));
+		if (!isHistoryChanged) {
+			dispatch(addViewedUser(user));
+			setIsHistoryChanged(true);
+		}
 	}, []);
 
 	return (

@@ -1,11 +1,17 @@
 import { IUser } from '@/types/types';
 import Link from 'next/link';
 import { FC } from 'react';
+import { useSelector } from 'react-redux';
 import styles from './UserList.module.scss';
 import User from './components/User/User';
-import { UserListProps } from './types';
 
-const UserList: FC<UserListProps> = ({ users, fetched, error }) => {
+// TODO: Rewrite fetching users with redux thunk
+
+const UserList: FC = () => {
+	const users = useSelector((state: any) => state.users.users);
+	const fetched = useSelector((state: any) => state.users.fetched);
+	const error = useSelector((state: any) => state.users.error);
+
 	const renderUsers = (user: IUser): React.ReactNode => (
 		<Link
 			className={styles['user-list__link']}
@@ -19,6 +25,7 @@ const UserList: FC<UserListProps> = ({ users, fetched, error }) => {
 			/>
 		</Link>
 	);
+
 	return (
 		<div className={styles['user-list']}>
 			{users.length ? (

@@ -1,36 +1,28 @@
-import { UserService } from '@/API/UserService';
 import Input from '@/components/UI/input/Input';
-import UserList from '@/components/UserList/UserList';
+import UserList from '@/components/UserList';
 import { useDebounce } from '@/hooks/useDebounce';
-import { useFetching } from '@/hooks/useFetching';
+import { fetchUsers, setError, setFetched, setUsers } from '@/store/UserSlice';
 import styles from '@/styles/Searcher.module.scss';
-import { IUser } from '@/types/types';
+import { AnyAction, Dispatch } from '@reduxjs/toolkit';
 import Head from 'next/head';
 import { FC, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 const Searcher: FC = () => {
-	const [users, setUsers] = useState<IUser[]>([]);
 	const [userLogin, setUserLogin] = useState<string>('');
 	const debouncedSearchTerm = useDebounce<string>(userLogin, 500);
-	const [fetched, setFetched] = useState<boolean>(false);
-
-	const [fetchUsers, error] = useFetching(async () => {
-		if (!userLogin) {
-			setUsers([]);
-			setFetched(false);
-			return;
-		}
-
-		const { data } = await UserService.getUsers(userLogin);
-
-		const { items } = data;
-
-		setFetched(true);
-		setUsers([...items]);
-	});
+	const dispatch = useDispatch<Dispatch<AnyAction> | any>();
 
 	useEffect(() => {
-		fetchUsers();
+		(async () => {
+			if (!debouncedSearchTerm) {
+				dispatch(setUsers([]));
+				dispatch(setFetched(false));
+				dispatch(setError(null));
+				return;
+			}
+			await dispatch(fetchUsers(debouncedSearchTerm));
+		})();
 	}, [debouncedSearchTerm]);
 
 	return (
@@ -51,11 +43,7 @@ const Searcher: FC = () => {
 					type='text'
 					placeholder='Enter the user login...'
 				/>
-				<UserList
-					error={error}
-					fetched={fetched}
-					users={users}
-				/>
+				<UserList />
 			</div>
 		</>
 	);
