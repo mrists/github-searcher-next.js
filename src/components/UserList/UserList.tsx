@@ -1,11 +1,13 @@
 import { IUser } from '@/types/types';
 import Link from 'next/link';
 import { FC } from 'react';
+import { useSelector } from 'react-redux';
 import styles from './UserList.module.scss';
 import User from './components/User/User';
-import { UserListProps } from './types';
 
-const UserList: FC<UserListProps> = ({ users, fetched, error }) => {
+const UserList: FC = () => {
+	const { users, fetched, error } = useSelector((state: any) => state.users);
+
 	const renderUsers = (user: IUser): React.ReactNode => (
 		<Link
 			className={styles['user-list__link']}
@@ -19,6 +21,7 @@ const UserList: FC<UserListProps> = ({ users, fetched, error }) => {
 			/>
 		</Link>
 	);
+
 	return (
 		<div className={styles['user-list']}>
 			{users.length ? (
