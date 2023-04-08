@@ -1,7 +1,7 @@
 import Input from '@/components/UI/input/Input';
 import UserList from '@/components/UserList';
 import { useDebounce } from '@/hooks/useDebounce';
-import { fetchUsers, setError, setFetched, setUsers } from '@/store/UserSlice';
+import { fetchUsers, setError, setFetched, setUsers } from '@/store/userSlice';
 import styles from '@/styles/Searcher.module.scss';
 import { AnyAction, Dispatch } from '@reduxjs/toolkit';
 import Head from 'next/head';
