@@ -1,6 +1,6 @@
 import { IRepository, User } from "@/types/types";
 
-export type UserDetailsProps = {
+export interface UserDetailsProps {
   user: User;
   repositories: IRepository[],
   error?: string

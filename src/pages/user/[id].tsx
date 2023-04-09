@@ -85,7 +85,7 @@ const UserDetails: FC<UserDetailsProps> = ({ user, repositories, error }) => {
 									{user.blog}
 								</a>
 							) : (
-								<p>User has not own blog</p>
+								<p>{"User has't own blog"}</p>
 							)}
 						</div>
 						<div className={styles['user-details__input']}>

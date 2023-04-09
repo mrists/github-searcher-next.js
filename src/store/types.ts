@@ -8,5 +8,5 @@ export interface userState {
   users: IUser[],
   repositories: IRepository[],
   fetched: boolean,
-  error: string | null
+  error: string | null | undefined
 }
