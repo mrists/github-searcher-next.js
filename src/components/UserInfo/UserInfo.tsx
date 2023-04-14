@@ -1,9 +1,9 @@
-import { User } from '@/types/types';
 import Image from 'next/image';
 import { FC } from 'react';
 import styles from './UserInfo.module.scss';
+import { UserInfoProps } from './types';
 
-const UserInfo: FC<User | any> = ({ user }) => {
+const UserInfo: FC<UserInfoProps> = ({ user }) => {
 	return (
 		<div className={styles['user-info']}>
 			<div className={styles['user-info__img-folder']}>

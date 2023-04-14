@@ -24,22 +24,7 @@
 			background-color: #5c62b0;
 		}
 	}
-	&__not-found,
-	&__loading {
+	&__not-found {
 		padding-left: 10px;
-	}
-	&__loading {
-		overflow: hidden;
-		white-space: nowrap;
-		animation: expand 1s infinite;
-	}
-}
-
-@keyframes expand {
-	from {
-		width: 0;
-	}
-	to {
-		width: 30%;
 	}
 }

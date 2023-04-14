@@ -8,6 +8,11 @@ import { ViewedUserProps } from './types';
 const ViewedUser: FC<ViewedUserProps> = ({ login, avatar_url, id }) => {
 	const dispatch = useDispatch();
 
+	function deleteUser(e: React.MouseEvent) {
+		e.preventDefault();
+		dispatch(removeViewedUser(id));
+	}
+
 	return (
 		<>
 			<div className={styles['viewed-user']}>
@@ -24,10 +29,7 @@ const ViewedUser: FC<ViewedUserProps> = ({ login, avatar_url, id }) => {
 					<span>{id}</span>
 				</div>
 				<div
-					onClick={(e: React.MouseEvent) => {
-						e.preventDefault();
-						dispatch(removeViewedUser(id));
-					}}
+					onClick={e => deleteUser(e)}
 					className={styles['viewed-user__delete']}
 				>
 					<Image

@@ -23,13 +23,11 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
 		const { user, userDetailsError: error, repositories } = store.getState().users;
 
-		console.log(user);
-
 		return {
 			props: {
 				user,
-				error,
 				repositories,
+				error,
 			},
 		};
 	}

@@ -12,7 +12,6 @@ export interface IUser {
   blog: string,
 }
 
-
 export interface IRepository {
   allow_forking: boolean,
   archive_url: string,
@@ -111,20 +110,6 @@ export interface IRepository {
   watchers: number,
   watchers_count: number,
   web_commit_signoff_required: boolean,
-}
-
-export type User = {
-  login: string,
-  id: number,
-  avatar_url: string,
-  name: string,
-  location: string,
-  followers: number,
-  following: number,
-  company: string,
-  public_repos: number,
-  public_gists: number,
-  blog: string,
 }
 
 export type Error = {

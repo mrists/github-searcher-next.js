@@ -1,14 +1,14 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
 export class UserService {
-  static async getUsers<T>(login: string): Promise<T | any> {
+  static async getUsers<T>(login: string): Promise<AxiosResponse> {
     const url = `https://api.github.com/search/users?q=${login}`;
     const response = await axios.get<T>(url);
 
     return response;
   }
 
-  static async getUserByID<T>(id: string | string[]): Promise<T | any> {
+  static async getUserByID<T>(id: string): Promise<AxiosResponse> {
     const url = `https://api.github.com/user/${id}`;
 
     const response = await axios.get<T>(url);
@@ -16,7 +16,7 @@ export class UserService {
     return response;
   }
 
-  static async getRepositories<T>(login: string): Promise<T | any> {
+  static async getRepositories<T>(login: string): Promise<AxiosResponse> {
     const url = `https://api.github.com/users/${login}/repos`;
 
     const response = await axios.get<T>(url);

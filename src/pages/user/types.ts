@@ -1,7 +1,7 @@
-import { IRepository, User } from "@/types/types";
+import { IRepository, IUser } from "@/types/types";
 
 export interface UserDetailsProps {
-  user: User;
+  user: IUser;
   repositories: IRepository[],
   error?: string
 };
