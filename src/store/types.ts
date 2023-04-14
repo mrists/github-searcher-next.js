@@ -6,7 +6,14 @@ export interface viewedUserState {
 
 export interface userState {
   users: IUser[],
+  user: IUser | null,
   repositories: IRepository[],
   fetched: boolean,
-  error: string | null | undefined
+  usersError: string | null | undefined,
+  userDetailsError: string | null | undefined
 }
+
+export interface FetchUserDetailsReturnType {
+  user: IUser;
+  repositories: IRepository[];
+};

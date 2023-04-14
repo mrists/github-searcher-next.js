@@ -21,7 +21,7 @@ const ViewedUsersList: FC<ViewedUsersListProps> = ({ users }) => {
 	);
 	return (
 		<div className={styles['viewed-users__list']}>
-			{users.length ? users.map(renderUsers) : <h3>No user found</h3>}
+			{users.length ? users.map(renderUsers) : <h3>The history is empty</h3>}
 		</div>
 	);
 };

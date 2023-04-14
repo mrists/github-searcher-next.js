@@ -1,5 +1,5 @@
 import Layout from '@/components/Layout/Layout';
-import store from '@/store';
+import store, { wrapper } from '@/store';
 import '@/styles/globals.scss';
 import type { AppProps } from 'next/app';
 import { FC } from 'react';
@@ -13,4 +13,4 @@ const App: FC<AppProps> = ({ Component, pageProps }) => (
 	</Provider>
 );
 
-export default App;
+export default wrapper.withRedux(App);

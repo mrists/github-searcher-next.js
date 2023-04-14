@@ -1,3 +1,4 @@
+import { RootState } from '@/store';
 import { IUser } from '@/types/types';
 import Link from 'next/link';
 import { FC } from 'react';
@@ -6,7 +7,7 @@ import styles from './UserList.module.scss';
 import User from './components/User/User';
 
 const UserList: FC = () => {
-	const { users, fetched, error } = useSelector((state: any) => state.users);
+	const { users, fetched, usersError: error } = useSelector((state: RootState) => state.users);
 
 	const renderUsers = (user: IUser): React.ReactNode => (
 		<Link

@@ -1,7 +1,7 @@
 import { UserService } from '@/API/UserService';
 import { IRepository, IUser } from '@/types/types';
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { userState } from './types';
+import { FetchUserDetailsReturnType, userState } from './types';
 
 export const fetchUsers = createAsyncThunk<IUser[], string, { rejectValue: string }>(
   'users/fetchUsers',
@@ -18,39 +18,29 @@ export const fetchUsers = createAsyncThunk<IUser[], string, { rejectValue: strin
   }
 )
 
-// export const fetchUserByID = createAsyncThunk<IUser, string, { rejectValue: string }>(
-//   'users/fetchUserByID',
-//   async function (userID: string, { rejectWithValue }) {
-//     try {
-//       const { data } = await UserService.getUserByID(userID);
+export const fetchUserDetails = createAsyncThunk<FetchUserDetailsReturnType, string, { rejectValue: string }>(
+  'users/fetchUserDetails',
+  async function (userID: string, { rejectWithValue }) {
+    try {
+      const { data: user } = await UserService.getUserByID(userID);
+      const { data: repositories } = await UserService.getRepositories(user.login);
 
-//       return data;
-//     } catch (error: unknown) {
-//       return rejectWithValue((error as Error).message)
-//     }
-//   }
-// )
-
-// export const fetchRepositories = createAsyncThunk<IRepository[], string, { rejectValue: string }>(
-//   'users/fetchRepositories',
-//   async function (userLogin: string, { rejectWithValue }) {
-//     try {
-//       const { data } = await UserService.getRepositories(userLogin);
-
-//       return data;
-//     } catch (error: unknown) {
-//       return rejectWithValue((error as Error).message)
-//     }
-//   }
-// )
+      return { user, repositories };
+    } catch (error: unknown) {
+      return rejectWithValue((error as Error).message)
+    }
+  }
+)
 
 const UserSlice = createSlice({
   name: 'users',
   initialState: {
     users: [] as IUser[],
+    user: {} as IUser | null,
     repositories: [] as IRepository[],
     fetched: false,
-    error: null,
+    usersError: null,
+    userDetailsError: null,
   },
   reducers: {
     setUsers(state, action: PayloadAction<IUser[]>) {
@@ -60,48 +50,36 @@ const UserSlice = createSlice({
       state.fetched = action.payload
     },
     setError(state, action: PayloadAction<null>) {
-      state.error = null
+      state.usersError = null
     }
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchUsers.pending, (state: userState) => {
-        state.error = null;
+      .addCase(fetchUsers.pending, (state) => {
+        state.usersError = null;
       })
-      .addCase(fetchUsers.fulfilled, (state: userState, action) => {
+      .addCase(fetchUsers.fulfilled, (state, action) => {
         state.fetched = true;
         state.users = action.payload;
       })
       .addCase(fetchUsers.rejected, (state: userState, action) => {
         state.users = [];
         state.fetched = false;
-        state.error = action.payload;
+        state.usersError = action.payload;
+      })
+      .addCase(fetchUserDetails.pending, (state) => {
+        state.userDetailsError = null;
+      })
+      .addCase(fetchUserDetails.fulfilled, (state, action) => {
+        state.user = action.payload.user;
+        state.repositories = action.payload.repositories;
+      })
+      .addCase(fetchUserDetails.rejected, (state: userState, action) => {
+        state.user = null;
+        state.repositories = [];
+        state.userDetailsError = action.payload;
       })
   }
-
-  // extraReducers: {
-  //   [`${fetchUserByID.pending}`]: (state: userState) => { 
-  //     state.error = null;
-  //   },
-  //   [`${fetchUserByID.fulfilled}`]: (state: userState, action: PayloadAction<IUser[]>) => {
-  //     state.users = action.payload;
-  //   },
-  //   [`${fetchUserByID.rejected}`]: (state: userState, action: PayloadAction<string>) => {
-  //     state.users = [];
-  //     state.error = action.payload;
-  //   },
-  //   [`${fetchRepositories.pending}`]: (state: userState) => {
-  //     state.error = null;
-  //   },
-  //   [`${fetchRepositories.fulfilled}`]: (state: userState, action: PayloadAction<IRepository[]>) => {
-  //     state.repositories = action.payload;
-  //   },
-  //   [`${fetchRepositories.rejected}`]: (state: userState, action: PayloadAction<string>) => {
-  //     state.users = [];
-  //     state.repositories = [];
-  //     state.error = action.payload;
-  //   },
-  // }
 });
 
 export const { setUsers, setFetched, setError } = UserSlice.actions;

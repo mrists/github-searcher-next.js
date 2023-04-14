@@ -1,41 +1,39 @@
-import { UserService } from '@/API/UserService';
 import RepositoriesList from '@/components/RepositoriesList/RepositoriesList';
 import Input from '@/components/UI/input/Input';
 import UserInfo from '@/components/UserInfo/UserInfo';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useRepos } from '@/hooks/useRepos';
+import { wrapper } from '@/store';
+import { fetchUserDetails } from '@/store/userSlice';
 import { addViewedUser } from '@/store/viewedUserSlice';
-import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ParsedUrlQuery } from 'querystring';
 import { FC, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styles from './UserDetails.module.scss';
 import { UserDetailsProps } from './types';
 
-export const getServerSideProps: GetServerSideProps = async (
-	context: GetServerSidePropsContext<ParsedUrlQuery>
-) => {
-	try {
+export const getServerSideProps = wrapper.getServerSideProps(
+	store => async (context: GetServerSidePropsContext) => {
 		const { id } = context.query;
 
-		const { data: user } = await UserService.getUserByID(id as string);
-		const { data: repositories } = await UserService.getRepositories(user.login);
+		await store.dispatch(fetchUserDetails(id as string));
+
+		const { user, userDetailsError: error, repositories } = store.getState().users;
+
+		console.log(user);
 
 		return {
 			props: {
 				user,
+				error,
 				repositories,
 			},
 		};
-	} catch (error) {
-		return {
-			props: { error },
-		};
 	}
-};
+);
 
 const UserDetails: FC<UserDetailsProps> = ({ user, repositories, error }) => {
 	const dispatch = useDispatch();
