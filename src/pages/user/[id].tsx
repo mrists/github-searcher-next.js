@@ -5,6 +5,7 @@ import UserInfo from '@/components/UserInfo/UserInfo';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useRepos } from '@/hooks/useRepos';
 import { addViewedUser } from '@/store/viewedUserSlice';
+import { IRepository, User } from '@/types/types';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
@@ -13,7 +14,12 @@ import { ParsedUrlQuery } from 'querystring';
 import { FC, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styles from './UserDetails.module.scss';
-import { UserDetailsProps } from './types';
+
+type UserDetailsProps = {
+	user: User;
+	repositories: IRepository[];
+	error?: string;
+};
 
 export const getServerSideProps: GetServerSideProps = async (
 	context: GetServerSidePropsContext<ParsedUrlQuery>
